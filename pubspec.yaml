@@ -3,6 +3,8 @@ description: A Flutter plugin for embedding Unity projects.
 version: 0.1.0
 author: Pedro Godinho
 homepage: https://github.com/Glartek/flutter-unity
+repository: https://github.com/Glartek/flutter-unity
+issue_tracker: https://github.com/Glartek/flutter-unity/issues
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
