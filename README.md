@@ -37,6 +37,7 @@ flatDir {
 }
 ```
 Refer to the [example project's build.gradle](https://github.com/Glartek/flutter-unity/blob/master/example/android/build.gradle#L16-L18).
+
 4. Open `<your_flutter_project>/android/settings.gradle` and add the following:
 ```
 include ':unityExport'
@@ -44,16 +45,21 @@ include ':unityExport'
 Refer to the [example project's settings.gradle](https://github.com/Glartek/flutter-unity/blob/master/example/android/settings.gradle#L17).
 
 ## Exchanging messages between Flutter and Unity
-##### Flutter
+#### Flutter
 To send a message, define the `onUnityViewCreated` callback in your `UnityView` widget, and use the `send` method from the received `controller`.
+
 To receive a message, define the `onUnityViewMessage` callback in your `UnityView` widget.
-##### Unity
+#### Unity
 To send and receive messages, include [FlutterUnityPlugin.cs](https://github.com/Glartek/flutter-unity/blob/master/example/unity/FlutterUnityExample/Assets/FlutterUnityPlugin.cs) in your project, and use the `Messages.Send` and `Messages.Receive` methods.
 
 A `Message` object has the following members:
-* **id (`int`)**
+
+* **id** (`int`)
+
 A non-negative number representing the source view when receiving a message, and the destination view when sending a message. When sending a message, it can also be set to a negative number, indicating that the message is intended for any existing view.
-* **data (`string`)**
+
+* **data** (`string`)
+
 The actual message.
 
 Refer to the [included Unity project's Rotate.cs](https://github.com/Glartek/flutter-unity/blob/master/example/unity/FlutterUnityExample/Assets/Rotate.cs#L21-L32).
