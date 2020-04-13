@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:io/io.dart' as io;
-import 'package:xml/xml.dart' as xml;
 
 void main() {
   try {
@@ -33,9 +32,10 @@ void main() {
 
     File file = File('$unityExportPath/src/main/AndroidManifest.xml');
     String contents = file.readAsStringSync();
-    xml.XmlDocument document = xml.parse(contents);
-    document.rootElement.children.elementAt(1).children.removeAt(1);
-    file.writeAsStringSync(document.toXmlString(pretty: true));
+    contents = contents
+        .replaceAll(RegExp(r'<application .*>'), '<application>')
+        .replaceAll(RegExp(r'\s*<activity .*>(?:\s|\S)*<\/activity>'), '');
+    file.writeAsStringSync(contents);
   } catch (e) {
     print(e);
   }
