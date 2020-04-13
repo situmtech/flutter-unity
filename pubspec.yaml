@@ -1,6 +1,6 @@
 name: flutter_unity
 description: A Flutter plugin for embedding Unity projects in Flutter projects.
-version: 0.1.0+1
+version: 0.1.0+2
 #author: Pedro Godinho
 homepage: https://github.com/Glartek/flutter-unity
 repository: https://github.com/Glartek/flutter-unity
