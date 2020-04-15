@@ -1,6 +1,12 @@
 name: flutter_unity
 description: A Flutter plugin for embedding Unity projects in Flutter projects.
-version: 0.1.0+2
+# Although semantic versioning doesn’t promise any compatibility between
+# versions prior to 1.0.0, the Dart community convention is to treat those
+# versions semantically as well. The interpretation of each number is just
+# shifted down one slot: going from 0.1.2 to 0.2.0 indicates a breaking change,
+# going to 0.1.3 indicates a new feature, and going to 0.1.2+1 indicates a
+# change that doesn’t affect the public API.
+version: 0.1.1
 #author: Pedro Godinho
 homepage: https://github.com/Glartek/flutter-unity
 repository: https://github.com/Glartek/flutter-unity

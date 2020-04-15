@@ -73,6 +73,7 @@ class _UnityViewPageState extends State<UnityViewPage> {
       ),
       body: UnityView(
         onUnityViewCreated: onUnityViewCreated,
+        onUnityViewReattached: onUnityViewReattached,
         onUnityViewMessage: onUnityViewMessage,
       ),
     );
@@ -88,6 +89,10 @@ class _UnityViewPageState extends State<UnityViewPage> {
       'SetRotationSpeed',
       '30',
     );
+  }
+
+  void onUnityViewReattached(UnityViewController controller) {
+    print('onUnityViewReattached');
   }
 
   void onUnityViewMessage(UnityViewController controller, String message) {

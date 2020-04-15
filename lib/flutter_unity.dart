@@ -18,15 +18,23 @@ class UnityViewController {
 
   Future<dynamic> _methodCallHandler(MethodCall call) async {
     switch (call.method) {
+      case 'onUnityViewReattached':
+        if (_widget.onUnityViewReattached != null) {
+          _widget.onUnityViewReattached(this);
+        }
+        return null;
       case 'onUnityViewMessage':
         if (_widget.onUnityViewMessage != null) {
           _widget.onUnityViewMessage(this, call.arguments);
         }
-
         return null;
       default:
         throw UnimplementedError('Unimplemented method: ${call.method}');
     }
+  }
+
+  void reattach() {
+    _channel.invokeMethod('reattach');
   }
 
   void pause() {
@@ -53,6 +61,9 @@ class UnityViewController {
 typedef void UnityViewCreatedCallback(
   UnityViewController controller,
 );
+typedef void UnityViewReattachedCallback(
+  UnityViewController controller,
+);
 typedef void UnityViewMessageCallback(
   UnityViewController controller,
   String message,
@@ -62,10 +73,12 @@ class UnityView extends StatefulWidget {
   const UnityView({
     Key key,
     this.onUnityViewCreated,
+    this.onUnityViewReattached,
     this.onUnityViewMessage,
   }) : super(key: key);
 
   final UnityViewCreatedCallback onUnityViewCreated;
+  final UnityViewReattachedCallback onUnityViewReattached;
   final UnityViewMessageCallback onUnityViewMessage;
 
   @override
@@ -84,7 +97,6 @@ class _UnityViewState extends State<UnityView> {
   @override
   void dispose() {
     super.dispose();
-
     completer.future.then((UnityViewController controller) {
       controller._channel.setMethodCallHandler(null);
     });
@@ -107,7 +119,6 @@ class _UnityViewState extends State<UnityView> {
   @override
   void didUpdateWidget(UnityView oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     completer.future.then((UnityViewController controller) {
       controller._widget = widget;
     });
@@ -115,9 +126,7 @@ class _UnityViewState extends State<UnityView> {
 
   void onPlatformViewCreated(int id) {
     UnityViewController controller = UnityViewController._(widget, id);
-
     completer.complete(controller);
-
     if (widget.onUnityViewCreated != null) {
       widget.onUnityViewCreated(controller);
     }

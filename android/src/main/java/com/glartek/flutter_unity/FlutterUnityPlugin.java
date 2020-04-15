@@ -15,14 +15,11 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
     static List<FlutterUnityView> views = new ArrayList<>();
 
-    private static String tag = "FlutterUnityPlugin";
-
     private FlutterPluginBinding flutterPluginBinding;
     private FlutterUnityPlayer player;
 
     public static void onMessage(String data) {
-        Log.d(FlutterUnityPlugin.tag, "onMessage -> " + data);
-
+        Log.d(String.valueOf(FlutterUnityPlugin.class), "onMessage: " + data);
         try {
             JSONObject jsonObj = new JSONObject(data);
             int messageId = jsonObj.getInt("id");
@@ -40,39 +37,39 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-        Log.d(FlutterUnityPlugin.tag, "onAttachedToEngine");
+        Log.d(String.valueOf(this), "onAttachedToEngine");
         flutterPluginBinding = binding;
         binding.getPlatformViewRegistry().registerViewFactory("unity_view", new FlutterUnityViewFactory(this));
     }
 
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-        Log.d(FlutterUnityPlugin.tag, "onDetachedFromEngine");
+        Log.d(String.valueOf(this), "onDetachedFromEngine");
         flutterPluginBinding = null;
     }
 
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-        Log.d(FlutterUnityPlugin.tag, "onAttachedToActivity");
+        Log.d(String.valueOf(this), "onAttachedToActivity");
         player = new FlutterUnityPlayer(binding.getActivity());
     }
 
     @Override
     public void onDetachedFromActivityForConfigChanges() {
-        Log.d(FlutterUnityPlugin.tag, "onDetachedFromActivityForConfigChanges");
+        Log.d(String.valueOf(this), "onDetachedFromActivityForConfigChanges");
         player.destroy();
         player = null;
     }
 
     @Override
     public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-        Log.d(FlutterUnityPlugin.tag, "onReattachedToActivityForConfigChanges");
+        Log.d(String.valueOf(this), "onReattachedToActivityForConfigChanges");
         player = new FlutterUnityPlayer(binding.getActivity());
     }
 
     @Override
     public void onDetachedFromActivity() {
-        Log.d(FlutterUnityPlugin.tag, "onDetachedFromActivity");
+        Log.d(String.valueOf(this), "onDetachedFromActivity");
         player.destroy();
         player = null;
     }

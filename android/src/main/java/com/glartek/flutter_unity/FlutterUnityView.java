@@ -1,6 +1,10 @@
 package com.glartek.flutter_unity;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
@@ -12,50 +16,62 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
 public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallHandler {
-    private static String tag = "FlutterUnityView";
-
     private final FlutterUnityPlugin plugin;
     private final int id;
+    private final FrameLayout view;
     private final MethodChannel channel;
 
-    FlutterUnityView(FlutterUnityPlugin plugin, int viewId) {
-        this.plugin = plugin;
-        this.id = viewId;
-        this.channel = new MethodChannel(plugin.getFlutterPluginBinding().getBinaryMessenger(), "unity_view_" + viewId);
+    FlutterUnityView(FlutterUnityPlugin plugin, Context context, int id) {
         FlutterUnityPlugin.views.add(this);
-        plugin.getPlayer().windowFocusChanged(plugin.getPlayer().getView().requestFocus());
-        plugin.getPlayer().resume();
-        this.channel.setMethodCallHandler(this);
+        this.plugin = plugin;
+        this.id = id;
+        view = new FrameLayout(context);
+        view.setBackgroundColor(Color.BLACK);
+        channel = new MethodChannel(plugin.getFlutterPluginBinding().getBinaryMessenger(), "unity_view_" + id);
+        channel.setMethodCallHandler(this);
+        attach();
     }
 
     @Override
     public View getView() {
-        Log.d(FlutterUnityView.tag, "getView");
-        return plugin.getPlayer().getView();
+        Log.d(String.valueOf(this), "getView");
+        return view;
     }
 
     @Override
     public void dispose() {
-        Log.d(FlutterUnityView.tag, "dispose");
+        Log.d(String.valueOf(this), "dispose");
         FlutterUnityPlugin.views.remove(this);
-        plugin.getPlayer().pause();
         channel.setMethodCallHandler(null);
+        if (plugin.getPlayer().getParent() == view) {
+            if (FlutterUnityPlugin.views.isEmpty()) {
+                view.removeView(plugin.getPlayer());
+            } else {
+                FlutterUnityPlugin.views.get(FlutterUnityPlugin.views.size() - 1).reattach();
+            }
+        }
     }
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
-        Log.d(FlutterUnityView.tag, "onMethodCall -> " + call.method);
-
+        Log.d(String.valueOf(this), "onMethodCall: " + call.method);
         switch (call.method) {
+            case "reattach":
+                reattach();
+                result.success(null);
+                break;
             case "pause":
+                reattach();
                 plugin.getPlayer().pause();
                 result.success(null);
                 break;
             case "resume":
+                reattach();
                 plugin.getPlayer().resume();
                 result.success(null);
                 break;
             case "send":
+                reattach();
                 try {
                     String gameObjectName = call.argument("gameObjectName");
                     String methodName = call.argument("methodName");
@@ -69,7 +85,6 @@ public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallH
                     e.printStackTrace();
                     result.error(null, e.getMessage(), null);
                 }
-
                 break;
             default:
                 result.notImplemented();
@@ -81,13 +96,33 @@ public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallH
     }
 
     void onMessage(final String message) {
-        Log.d(FlutterUnityView.tag, "onMessage -> " + message);
-
+        Log.d(String.valueOf(this), "onMessage: " + message);
         plugin.getPlayer().post(new Runnable() {
             @Override
             public void run() {
                 channel.invokeMethod("onUnityViewMessage", message);
             }
         });
+    }
+
+    private void attach() {
+        if (plugin.getPlayer().getParent() != null) {
+            ((ViewGroup) plugin.getPlayer().getParent()).removeView(plugin.getPlayer());
+        }
+        view.addView(plugin.getPlayer());
+        plugin.getPlayer().windowFocusChanged(plugin.getPlayer().getView().requestFocus());
+        plugin.getPlayer().resume();
+    }
+
+    private void reattach() {
+        if (plugin.getPlayer().getParent() != view) {
+            attach();
+            plugin.getPlayer().post(new Runnable() {
+                @Override
+                public void run() {
+                    channel.invokeMethod("onUnityViewReattached", null);
+                }
+            });
+        }
     }
 }
