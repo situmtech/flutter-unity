@@ -1,5 +1,7 @@
 package com.glartek.flutter_unity;
 
+import android.view.WindowManager;
+
 import androidx.annotation.NonNull;
 
 import org.json.JSONObject;
@@ -52,6 +54,7 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         Log.d(String.valueOf(this), "onAttachedToActivity");
         player = new FlutterUnityPlayer(binding.getActivity());
+        binding.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
@@ -65,6 +68,7 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
     public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
         Log.d(String.valueOf(this), "onReattachedToActivityForConfigChanges");
         player = new FlutterUnityPlayer(binding.getActivity());
+        binding.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
