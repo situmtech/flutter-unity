@@ -72,9 +72,9 @@ class _UnityViewPageState extends State<UnityViewPage> {
         title: const Text('Plugin example app'),
       ),
       body: UnityView(
-        onUnityViewCreated: onUnityViewCreated,
-        onUnityViewReattached: onUnityViewReattached,
-        onUnityViewMessage: onUnityViewMessage,
+        onCreated: onUnityViewCreated,
+        onReattached: onUnityViewReattached,
+        onMessage: onUnityViewMessage,
       ),
     );
   }

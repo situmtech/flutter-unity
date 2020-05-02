@@ -46,9 +46,9 @@ Refer to the [example project's settings.gradle](https://github.com/Glartek/flut
 
 ## Exchanging messages between Flutter and Unity
 #### Flutter
-To send a message, define the `onUnityViewCreated` callback in your `UnityView` widget, and use the `send` method from the received `controller`.
+To send a message, define the `onCreated` callback in your `UnityView` widget, and use the `send` method from the received `controller`.
 
-To receive a message, define the `onUnityViewMessage` callback in your `UnityView` widget.
+To receive a message, define the `onMessage` callback in your `UnityView` widget.
 #### Unity
 To send and receive messages, include [FlutterUnityPlugin.cs](https://github.com/Glartek/flutter-unity/blob/master/example/unity/FlutterUnityExample/Assets/FlutterUnityPlugin.cs) in your project, and use the `Messages.Send` and `Messages.Receive` methods.
 

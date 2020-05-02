@@ -6,26 +6,26 @@ import 'package:flutter/services.dart';
 
 class UnityViewController {
   UnityViewController._(
-    UnityView widget,
+    UnityView view,
     int id,
-  )   : _widget = widget,
+  )   : _view = view,
         _channel = MethodChannel('unity_view_$id') {
     _channel.setMethodCallHandler(_methodCallHandler);
   }
 
-  UnityView _widget;
+  UnityView _view;
   final MethodChannel _channel;
 
   Future<dynamic> _methodCallHandler(MethodCall call) async {
     switch (call.method) {
       case 'onUnityViewReattached':
-        if (_widget.onUnityViewReattached != null) {
-          _widget.onUnityViewReattached(this);
+        if (_view.onReattached != null) {
+          _view.onReattached(this);
         }
         return null;
       case 'onUnityViewMessage':
-        if (_widget.onUnityViewMessage != null) {
-          _widget.onUnityViewMessage(this, call.arguments);
+        if (_view.onMessage != null) {
+          _view.onMessage(this, call.arguments);
         }
         return null;
       default:
@@ -68,14 +68,14 @@ typedef void UnityViewMessageCallback(
 class UnityView extends StatefulWidget {
   const UnityView({
     Key key,
-    this.onUnityViewCreated,
-    this.onUnityViewReattached,
-    this.onUnityViewMessage,
+    this.onCreated,
+    this.onReattached,
+    this.onMessage,
   }) : super(key: key);
 
-  final UnityViewCreatedCallback onUnityViewCreated;
-  final UnityViewReattachedCallback onUnityViewReattached;
-  final UnityViewMessageCallback onUnityViewMessage;
+  final UnityViewCreatedCallback onCreated;
+  final UnityViewReattachedCallback onReattached;
+  final UnityViewMessageCallback onMessage;
 
   @override
   _UnityViewState createState() => _UnityViewState();
@@ -115,7 +115,7 @@ class _UnityViewState extends State<UnityView> {
   @override
   void didUpdateWidget(UnityView oldWidget) {
     completer.future.then((UnityViewController controller) {
-      controller._widget = widget;
+      controller._view = widget;
     });
     super.didUpdateWidget(oldWidget);
   }
@@ -123,8 +123,8 @@ class _UnityViewState extends State<UnityView> {
   void onPlatformViewCreated(int id) {
     UnityViewController controller = UnityViewController._(widget, id);
     completer.complete(controller);
-    if (widget.onUnityViewCreated != null) {
-      widget.onUnityViewCreated(controller);
+    if (widget.onCreated != null) {
+      widget.onCreated(controller);
     }
   }
 }
