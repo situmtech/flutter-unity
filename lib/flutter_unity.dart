@@ -33,10 +33,6 @@ class UnityViewController {
     }
   }
 
-  void reattach() {
-    _channel.invokeMethod('reattach');
-  }
-
   void pause() {
     _channel.invokeMethod('pause');
   }
@@ -96,10 +92,10 @@ class _UnityViewState extends State<UnityView> {
 
   @override
   void dispose() {
-    super.dispose();
     completer.future.then((UnityViewController controller) {
       controller._channel.setMethodCallHandler(null);
     });
+    super.dispose();
   }
 
   @override
@@ -118,10 +114,10 @@ class _UnityViewState extends State<UnityView> {
 
   @override
   void didUpdateWidget(UnityView oldWidget) {
-    super.didUpdateWidget(oldWidget);
     completer.future.then((UnityViewController controller) {
       controller._widget = widget;
     });
+    super.didUpdateWidget(oldWidget);
   }
 
   void onPlatformViewCreated(int id) {

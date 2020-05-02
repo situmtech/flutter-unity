@@ -55,23 +55,17 @@ public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallH
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         Log.d(String.valueOf(this), "onMethodCall: " + call.method);
+        reattach();
         switch (call.method) {
-            case "reattach":
-                reattach();
-                result.success(null);
-                break;
             case "pause":
-                reattach();
                 plugin.getPlayer().pause();
                 result.success(null);
                 break;
             case "resume":
-                reattach();
                 plugin.getPlayer().resume();
                 result.success(null);
                 break;
             case "send":
-                reattach();
                 try {
                     String gameObjectName = call.argument("gameObjectName");
                     String methodName = call.argument("methodName");
@@ -110,7 +104,7 @@ public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallH
             ((ViewGroup) plugin.getPlayer().getParent()).removeView(plugin.getPlayer());
         }
         view.addView(plugin.getPlayer());
-        plugin.getPlayer().windowFocusChanged(plugin.getPlayer().getView().requestFocus());
+        plugin.getPlayer().windowFocusChanged(plugin.getPlayer().requestFocus());
         plugin.getPlayer().resume();
     }
 
