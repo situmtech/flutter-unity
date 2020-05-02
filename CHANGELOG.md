@@ -1,3 +1,10 @@
+## 0.2.0
+
+* Drop the 'reattach' method call.
+* Simplify 'UnityView' callback names.
+* Prevent Unity from causing the window not to be resized when an input method is shown.
+* Update README.
+
 ## 0.1.1
 
 * Fully support concurrent views by having both automatic and manual view switching.
