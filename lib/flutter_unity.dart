@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -82,8 +80,7 @@ class UnityView extends StatefulWidget {
 }
 
 class _UnityViewState extends State<UnityView> {
-  final Completer<UnityViewController> completer =
-      Completer<UnityViewController>();
+  UnityViewController controller;
 
   @override
   void initState() {
@@ -91,10 +88,14 @@ class _UnityViewState extends State<UnityView> {
   }
 
   @override
+  void didUpdateWidget(UnityView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    controller?._view = widget;
+  }
+
+  @override
   void dispose() {
-    completer.future.then((UnityViewController controller) {
-      controller._channel.setMethodCallHandler(null);
-    });
+    controller?._channel?.setMethodCallHandler(null);
     super.dispose();
   }
 
@@ -112,17 +113,8 @@ class _UnityViewState extends State<UnityView> {
     }
   }
 
-  @override
-  void didUpdateWidget(UnityView oldWidget) {
-    completer.future.then((UnityViewController controller) {
-      controller._view = widget;
-    });
-    super.didUpdateWidget(oldWidget);
-  }
-
   void onPlatformViewCreated(int id) {
-    UnityViewController controller = UnityViewController._(widget, id);
-    completer.complete(controller);
+    controller = UnityViewController._(widget, id);
     if (widget.onCreated != null) {
       widget.onCreated(controller);
     }
