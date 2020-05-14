@@ -1,3 +1,7 @@
+## 0.2.0+1
+
+* Pause player when there isn't a view to reattach to.
+
 ## 0.2.0
 
 * Drop the 'reattach' method call.
