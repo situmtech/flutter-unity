@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace FlutterUnityPlugin
@@ -27,14 +27,16 @@ namespace FlutterUnityPlugin
 
             if (Application.platform == RuntimePlatform.Android)
             {
-                using (AndroidJavaClass jc = new AndroidJavaClass("com.glartek.flutter_unity.FlutterUnityPlugin"))
+                using (AndroidJavaClass FlutterUnityPluginClass = new AndroidJavaClass("com.glartek.flutter_unity.FlutterUnityPlugin"))
                 {
-                    jc.CallStatic("onMessage", data);
+                    FlutterUnityPluginClass.CallStatic("onMessage", data);
                 }
             }
             else
             {
-                // Unsupported platform
+                #if UNITY_IOS
+                FlutterUnityPluginOnMessage(data);
+                #endif
             }
         }
 
@@ -42,5 +44,10 @@ namespace FlutterUnityPlugin
         {
             return Message.FromJson(data);
         }
+
+        #if UNITY_IOS
+        [DllImport("__Internal")]
+        private static extern void FlutterUnityPluginOnMessage(string data);
+        #endif
     }
 }
