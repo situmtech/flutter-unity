@@ -41,16 +41,7 @@ public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallH
     @Override
     public void dispose() {
         Log.d(String.valueOf(this), "dispose");
-        FlutterUnityPlugin.views.remove(this);
-        channel.setMethodCallHandler(null);
-        if (plugin.getPlayer().getParent() == view) {
-            if (FlutterUnityPlugin.views.isEmpty()) {
-                view.removeView(plugin.getPlayer());
-                plugin.getPlayer().pause();
-            } else {
-                FlutterUnityPlugin.views.get(FlutterUnityPlugin.views.size() - 1).reattach();
-            }
-        }
+        remove();
     }
 
     @Override
@@ -68,13 +59,10 @@ public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallH
                 break;
             case "send":
                 try {
-                    String gameObjectName = call.argument("gameObjectName");
-                    String methodName = call.argument("methodName");
-                    String message = call.argument("message");
-                    JSONObject jsonObj = new JSONObject();
-                    jsonObj.put("id", id);
-                    jsonObj.put("data", message);
-                    FlutterUnityPlayer.UnitySendMessage(gameObjectName, methodName, jsonObj.toString());
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("id", id);
+                    jsonObject.put("data", call.argument("message"));
+                    FlutterUnityPlayer.UnitySendMessage((String) call.argument("gameObjectName"), (String) call.argument("methodName"), jsonObject.toString());
                     result.success(null);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -98,6 +86,19 @@ public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallH
                 channel.invokeMethod("onUnityViewMessage", message);
             }
         });
+    }
+
+    private void remove() {
+        FlutterUnityPlugin.views.remove(this);
+        channel.setMethodCallHandler(null);
+        if (plugin.getPlayer().getParent() == view) {
+            if (FlutterUnityPlugin.views.isEmpty()) {
+                view.removeView(plugin.getPlayer());
+                plugin.getPlayer().pause();
+            } else {
+                FlutterUnityPlugin.views.get(FlutterUnityPlugin.views.size() - 1).reattach();
+            }
+        }
     }
 
     private void attach() {

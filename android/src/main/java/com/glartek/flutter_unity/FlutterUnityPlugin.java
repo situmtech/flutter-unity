@@ -23,10 +23,9 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
     public static void onMessage(String data) {
         Log.d(String.valueOf(FlutterUnityPlugin.class), "onMessage: " + data);
         try {
-            JSONObject jsonObj = new JSONObject(data);
-            int messageId = jsonObj.getInt("id");
-            String messageData = jsonObj.getString("data");
-
+            JSONObject jsonObject = new JSONObject(data);
+            int messageId = jsonObject.getInt("id");
+            String messageData = jsonObject.getString("data");
             for (FlutterUnityView view : FlutterUnityPlugin.views) {
                 if (messageId < 0 || messageId == view.getId()) {
                     view.onMessage(messageData);
