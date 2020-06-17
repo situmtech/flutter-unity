@@ -55,6 +55,20 @@ void UfwResume()
 
 NSMutableArray * gViews;
 
+@interface FrameLayout : UIView
+@end
+
+@implementation FrameLayout
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    if (!CGRectIsEmpty([self bounds])) {
+        [(UIView *)[[gUfw appController] unityView] setFrame: [self bounds]];
+    }
+}
+
+@end
+
 @interface FlutterUnityView : NSObject<FlutterPlatformView>
 
 - (instancetype)initWithFrame:(CGRect)frame viewIdentifier:(int64_t)viewId binaryMessenger:
@@ -64,7 +78,7 @@ NSMutableArray * gViews;
 
 @implementation FlutterUnityView {
     int64_t _viewId;
-    UIView * _view;
+    FrameLayout * _view;
     FlutterMethodChannel * _channel;
 }
 
@@ -73,7 +87,7 @@ NSMutableArray * gViews;
     if (self = [super init]) {
         [gViews addObject: self];
         _viewId = viewId;
-        _view = [[UIView alloc] initWithFrame: frame];
+        _view = [[FrameLayout alloc] initWithFrame: frame];
         [_view setBackgroundColor: [UIColor blackColor]];
         _channel = [FlutterMethodChannel methodChannelWithName:
             [NSString stringWithFormat: @"unity_view_%lld", viewId] binaryMessenger: messenger];
@@ -167,8 +181,6 @@ NSMutableArray * gViews;
         [unityView removeFromSuperview];
         [superview layoutIfNeeded];
     }
-    [unityView setFrame: [_view bounds]];
-    [unityView setAutoresizingMask: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [_view addSubview: unityView];
     [_view layoutIfNeeded];
     UfwResume();
