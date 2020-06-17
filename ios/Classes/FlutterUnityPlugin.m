@@ -234,7 +234,7 @@ NSMutableArray * gViews;
 
 @end
 
-void FlutterUnityPluginOnMessage(const char * data)
+__attribute__((used)) void FlutterUnityPluginOnMessage(const char * data)
 {
     NSLog(@"FlutterUnityPluginOnMessage: %s", data);
     NSData * jsonData = [[NSString stringWithUTF8String: data] dataUsingEncoding: NSUTF8StringEncoding];
