@@ -1,3 +1,8 @@
+## 0.2.1
+
+* Add iOS support.
+* Update README.
+
 ## 0.2.0+1
 
 * Pause player when there isn't a view to reattach to.
