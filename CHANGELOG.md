@@ -1,3 +1,8 @@
+## 0.2.1+1
+
+* Fix Android issues.
+* Update README.
+
 ## 0.2.1
 
 * Add iOS support.
