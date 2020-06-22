@@ -7,18 +7,28 @@ void main() {
     String unityExportPath = '${Directory.current.path}/android/unityExport';
 
     if (!Directory(unityExportPath).existsSync()) {
-      print('The "unityExport" directory is missing!');
+      print('Directory not found: `$unityExportPath`');
       return;
     }
 
-    if (!Directory('$unityExportPath/unityLibrary').existsSync()) {
+    String launcherPath = '$unityExportPath/launcher';
+    String unityLibraryPath = '$unityExportPath/unityLibrary';
+    String launcherResPath = '$launcherPath/src/main/res';
+    String unityLibraryResPath = '$unityLibraryPath/src/main/res';
+
+    if (!Directory(launcherResPath).existsSync()) {
+      print('Directory not found: `$launcherResPath`');
       return;
     }
 
-    io.copyPathSync('$unityExportPath/launcher/src/main/res',
-        '$unityExportPath/unityLibrary/src/main/res');
+    if (!Directory(unityLibraryResPath).existsSync()) {
+      print('Directory not found: `$unityLibraryResPath`');
+      return;
+    }
 
-    Directory('$unityExportPath/launcher').deleteSync(recursive: true);
+    io.copyPathSync(launcherResPath, unityLibraryResPath);
+
+    Directory(launcherPath).deleteSync(recursive: true);
 
     for (FileSystemEntity entity in Directory(unityExportPath).listSync()) {
       try {
@@ -26,9 +36,9 @@ void main() {
       } catch (_) {}
     }
 
-    io.copyPathSync('$unityExportPath/unityLibrary', '$unityExportPath');
+    io.copyPathSync(unityLibraryPath, unityExportPath);
 
-    Directory('$unityExportPath/unityLibrary').deleteSync(recursive: true);
+    Directory(unityLibraryPath).deleteSync(recursive: true);
 
     File file = File('$unityExportPath/src/main/AndroidManifest.xml');
     String contents = file.readAsStringSync();
