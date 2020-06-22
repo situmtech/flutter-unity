@@ -72,7 +72,15 @@ To test this plugin, do the following:
 #### Android
 1. Copy the `unityExport` folder to `<your_flutter_project>/android/unityExport`.
 2. Run `flutter pub run flutter_unity:unity_export_transmogrify`.
-3. Open `<your_flutter_project>/android/build.gradle` and, under `allprojects { repositories {} }`, add the following:
+3. Open `<your_flutter_project>/android/unityExport/build.gradle` and check if `buildTypes { profile {} }` is present. If not, add the following:
+```
+buildTypes {
+    profile {}
+}
+```
+Refer to the [example project's unityExport/build.gradle](https://github.com/Glartek/flutter-unity/blob/master/example/android/unityExport/build.gradle#L43-L45).
+
+4. Open `<your_flutter_project>/android/build.gradle` and, under `allprojects { repositories {} }`, add the following:
 ```
 flatDir {
     dirs "${project(':unityExport').projectDir}/libs"
@@ -80,13 +88,19 @@ flatDir {
 ```
 Refer to the [example project's build.gradle](https://github.com/Glartek/flutter-unity/blob/master/example/android/build.gradle#L16-L18).
 
-4. Open `<your_flutter_project>/android/settings.gradle` and add the following:
+5. Open `<your_flutter_project>/android/settings.gradle` and add the following:
 ```
 include ':unityExport'
 ```
 Refer to the [example project's settings.gradle](https://github.com/Glartek/flutter-unity/blob/master/example/android/settings.gradle#L17).
 
-Steps 1 and 2 must be repeated for every new build of the Unity project.
+6. Open `<your_flutter_project>/android/app/src/main/AndroidManifest.xml` and add the following:
+```
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
+```
+Refer to the [example project's AndroidManifest.xml](https://github.com/Glartek/flutter-unity/blob/master/example/android/app/src/main/AndroidManifest.xml#L8).
+
+Steps 1, 2 and 3 must be repeated for every new build of the Unity project.
 
 #### iOS
 1. Copy the `UnityProject` folder to `<your_flutter_project>/ios/UnityProject` and open `<your_flutter_project>/ios/Runner.xcworkspace` in **Xcode**.
