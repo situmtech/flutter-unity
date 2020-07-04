@@ -40,6 +40,12 @@ To test this plugin, do the following:
   </thead>
   <tbody>
     <tr>
+      <td>Resolution and Presentation > Start in fullscreen mode
+      </td>
+      <td>No
+      </td>
+    </tr>
+    <tr>
       <td>Other Settings > Rendering > Graphics APIs
       </td>
       <td>OpenGLES3
