@@ -1,3 +1,9 @@
+## 0.2.1+2
+
+* Prevent example app from becoming fullscreen (Android).
+* Prevent screen orientation locking (Android).
+* Update README.
+
 ## 0.2.1+1
 
 * Fix Android issues.
