@@ -95,6 +95,7 @@ public class FlutterUnityView implements PlatformView, MethodChannel.MethodCallH
             if (FlutterUnityPlugin.views.isEmpty()) {
                 view.removeView(plugin.getPlayer());
                 plugin.getPlayer().pause();
+                plugin.resetScreenOrientation();
             } else {
                 FlutterUnityPlugin.views.get(FlutterUnityPlugin.views.size() - 1).reattach();
             }

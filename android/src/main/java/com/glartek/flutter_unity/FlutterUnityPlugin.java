@@ -1,5 +1,6 @@
 package com.glartek.flutter_unity;
 
+import android.app.Activity;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,8 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
     static List<FlutterUnityView> views = new ArrayList<>();
 
     private FlutterPluginBinding flutterPluginBinding;
+    private int initialActivityRequestedOrientation;
+    private Activity currentActivity;
     private FlutterUnityPlayer player;
 
     public static void onMessage(String data) {
@@ -52,36 +55,49 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         Log.d(String.valueOf(this), "onAttachedToActivity");
-        player = new FlutterUnityPlayer(binding.getActivity());
-        binding.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        onActivity(binding.getActivity());
     }
 
     @Override
     public void onDetachedFromActivityForConfigChanges() {
         Log.d(String.valueOf(this), "onDetachedFromActivityForConfigChanges");
-        player.destroy();
-        player = null;
+        onActivity(null);
     }
 
     @Override
     public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
         Log.d(String.valueOf(this), "onReattachedToActivityForConfigChanges");
-        player = new FlutterUnityPlayer(binding.getActivity());
-        binding.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        onActivity(binding.getActivity());
     }
 
     @Override
     public void onDetachedFromActivity() {
         Log.d(String.valueOf(this), "onDetachedFromActivity");
-        player.destroy();
-        player = null;
+        onActivity(null);
     }
 
     FlutterPluginBinding getFlutterPluginBinding() {
         return flutterPluginBinding;
     }
 
+    void resetScreenOrientation() {
+        currentActivity.setRequestedOrientation(initialActivityRequestedOrientation);
+    }
+
     FlutterUnityPlayer getPlayer() {
         return player;
+    }
+
+    private void onActivity(Activity activity) {
+        if (activity != null) {
+            initialActivityRequestedOrientation = activity.getRequestedOrientation();
+            currentActivity = activity;
+            player = new FlutterUnityPlayer(activity);
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            currentActivity = null;
+            player.destroy();
+            player = null;
+        }
     }
 }
