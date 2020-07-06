@@ -3,6 +3,7 @@ package com.glartek.flutter_unity;
 import android.app.Activity;
 import android.view.WindowManager;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 import org.json.JSONObject;
@@ -15,6 +16,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 
+@Keep
 public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
     static List<FlutterUnityView> views = new ArrayList<>();
 
@@ -23,6 +25,7 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
     private Activity currentActivity;
     private FlutterUnityPlayer player;
 
+    @Keep
     public static void onMessage(String data) {
         Log.d(String.valueOf(FlutterUnityPlugin.class), "onMessage: " + data);
         try {
