@@ -1,3 +1,7 @@
+## 0.2.1+3
+
+* Fix APK build issue. [#5](https://github.com/Glartek/flutter-unity/issues/5)
+
 ## 0.2.1+2
 
 * Prevent example app from becoming fullscreen (Android).
