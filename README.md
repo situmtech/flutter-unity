@@ -1,3 +1,5 @@
+<img src="https://github.com/Glartek/flutter-unity/raw/master/flutter-unity.png">
+
 # flutter_unity
 
 A Flutter plugin for embedding Unity projects in Flutter projects.
