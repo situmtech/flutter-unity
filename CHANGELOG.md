@@ -1,3 +1,8 @@
+## 0.2.1+4
+
+* Make minor changes to Unity initialization (iOS).
+* Update README.
+
 ## 0.2.1+3
 
 * Fix APK build issue. [#5](https://github.com/Glartek/flutter-unity/issues/5)
