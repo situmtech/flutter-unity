@@ -16,9 +16,6 @@ void UfwLoad()
         [bundle load];
     }
     gUfw = [[bundle principalClass] getInstance];
-    if (![gUfw appController]) {
-        [gUfw setExecuteHeader: &_mh_execute_header];
-    }
 }
 
 void UfwRun()
