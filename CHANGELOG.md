@@ -1,3 +1,8 @@
+## 0.3.1+6
+
+* Remove deprecated RaisedButton an add ElevatedButton to the example
+* Migrate to null safety
+
 ## 0.2.1+5
 
 * Update unity_export_transmogrify to support Unity 2020.x+.
