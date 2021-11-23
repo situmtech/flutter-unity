@@ -1,4 +1,4 @@
-## 0.3.1+6
+## 0.3.0
 
 * Remove deprecated RaisedButton an add ElevatedButton to the example
 * Migrate to null safety
