@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+const CHANNEL_ID = 'unity_view';
+
 class UnityViewController {
-  UnityViewController._(
-    UnityView view,
-    int id,
-  )   : _view = view,
-        _channel = MethodChannel('unity_view_$id') {
+  UnityViewController._(UnityView view,
+      int id,)
+      : _view = view,
+        _channel = MethodChannel('${CHANNEL_ID}_$id') {
     _channel.setMethodCallHandler(_methodCallHandler);
   }
 
@@ -39,11 +42,9 @@ class UnityViewController {
     _channel.invokeMethod('resume');
   }
 
-  void send(
-    String gameObjectName,
-    String methodName,
-    String message,
-  ) {
+  void send(String gameObjectName,
+      String methodName,
+      String message,) {
     _channel.invokeMethod('send', {
       'gameObjectName': gameObjectName,
       'methodName': methodName,
@@ -52,16 +53,10 @@ class UnityViewController {
   }
 }
 
-typedef void UnityViewCreatedCallback(
-  UnityViewController? controller,
-);
-typedef void UnityViewReattachedCallback(
-  UnityViewController controller,
-);
-typedef void UnityViewMessageCallback(
-  UnityViewController controller,
-  String? message,
-);
+typedef void UnityViewCreatedCallback(UnityViewController? controller,);
+typedef void UnityViewReattachedCallback(UnityViewController controller,);
+typedef void UnityViewMessageCallback(UnityViewController controller,
+    String? message,);
 
 class UnityView extends StatefulWidget {
   const UnityView({
@@ -102,18 +97,46 @@ class _UnityViewState extends State<UnityView> {
     super.dispose();
   }
 
+  // https://github.com/flutter/flutter/wiki/Android-Platform-Views
+  Widget _buildHybrid(BuildContext context) {
+    print("Situm> Using hybrid components");
+    return PlatformViewLink(
+      viewType: CHANNEL_ID,
+      surfaceFactory: (context, controller) {
+        return AndroidViewSurface(
+          controller: controller as SurfaceAndroidViewController,
+          gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+          hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+        );
+      },
+      onCreatePlatformView: (params) {
+        final AndroidViewController controller =
+        PlatformViewsService.initSurfaceAndroidView(
+          id: params.id,
+          viewType: CHANNEL_ID,
+          layoutDirection: TextDirection.ltr,
+          onFocus: () {
+            params.onFocusChanged(true);
+          },
+        );
+        controller
+            .addOnPlatformViewCreatedListener(params.onPlatformViewCreated);
+        controller.addOnPlatformViewCreatedListener(onPlatformViewCreated);
+        controller.create();
+        return controller;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return AndroidView(
-          viewType: 'unity_view',
-          onPlatformViewCreated: onPlatformViewCreated,
-        );
+        return _buildHybrid(context);
         break;
       case TargetPlatform.iOS:
         return UiKitView(
-          viewType: 'unity_view',
+          viewType: CHANNEL_ID,
           onPlatformViewCreated: onPlatformViewCreated,
         );
         break;
