@@ -1,6 +1,6 @@
 <img src="https://github.com/situmtech/flutter-unity/raw/master/flutter-unity.png">
 
-# flutter_unity
+# situm_flutter_unity
 
 A Flutter plugin for embedding Unity projects in Flutter projects.
 
@@ -10,7 +10,7 @@ Both Android and iOS are supported.
 > This is a fork of https://github.com/Glartek/flutter-unity.
 
 ## Usage
-To use this plugin, add `flutter_unity` as a [dependency in your pubspec.yaml file](https://flutter.dev/platform-plugins/).
+To use this plugin, add `situm_flutter_unity` as a [dependency in your pubspec.yaml file](https://flutter.dev/platform-plugins/).
 
 ## Example
 Refer to the [example project](https://github.com/situmtech/flutter-unity/tree/master/example) and the [included Unity project](https://github.com/situmtech/flutter-unity/tree/master/example/unity/FlutterUnityExample).
