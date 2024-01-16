@@ -1,4 +1,4 @@
-<img src="https://github.com/Glartek/flutter-unity/raw/master/flutter-unity.png">
+<img src="https://github.com/situmtech/flutter-unity/raw/master/flutter-unity.png">
 
 # flutter_unity
 
@@ -6,21 +6,24 @@ A Flutter plugin for embedding Unity projects in Flutter projects.
 
 Both Android and iOS are supported.
 
+> [!NOTE]  
+> This is a fork of https://github.com/Glartek/flutter-unity.
+
 ## Usage
 To use this plugin, add `flutter_unity` as a [dependency in your pubspec.yaml file](https://flutter.dev/platform-plugins/).
 
 ## Example
-Refer to the [example project](https://github.com/Glartek/flutter-unity/tree/master/example) and the [included Unity project](https://github.com/Glartek/flutter-unity/tree/master/example/unity/FlutterUnityExample).
+Refer to the [example project](https://github.com/situmtech/flutter-unity/tree/master/example) and the [included Unity project](https://github.com/situmtech/flutter-unity/tree/master/example/unity/FlutterUnityExample).
 
 ## Testing
 To test this plugin, do the following:
-1. Run `git clone https://github.com/Glartek/flutter-unity.git` to create a local copy of flutter-unity.
+1. Run `git clone https://github.com/situmtech/flutter-unity.git` to create a local copy of flutter-unity.
 2. Open flutter-unity in **Android Studio**.
 #### Android
 3. Connect your Android device and run the project.
 
 #### iOS
-3. Configure the [example project](https://github.com/Glartek/flutter-unity/tree/master/example) and the [included Unity project](https://github.com/Glartek/flutter-unity/tree/master/example/unity/FlutterUnityExample).
+3. Configure the [example project](https://github.com/situmtech/flutter-unity/tree/master/example) and the [included Unity project](https://github.com/situmtech/flutter-unity/tree/master/example/unity/FlutterUnityExample).
 4. Connect your iOS device and run the project.
 
 ## Configuring your Unity project
@@ -79,14 +82,14 @@ To test this plugin, do the following:
 ## Configuring your Flutter project
 #### Android
 1. Copy the `unityExport` folder to `<your_flutter_project>/android/unityExport`.
-2. Run `flutter pub run flutter_unity:unity_export_transmogrify`.
+2. Run `flutter pub run situm_flutter_unity:unity_export_transmogrify`.
 3. Open `<your_flutter_project>/android/unityExport/build.gradle` and check if `buildTypes { profile {} }` is present. If not, add the following:
 ```
 buildTypes {
     profile {}
 }
 ```
-Refer to the [example project's unityExport/build.gradle](https://github.com/Glartek/flutter-unity/blob/master/example/android/unityExport/build.gradle#L43-L45).
+Refer to the [example project's unityExport/build.gradle](https://github.com/situmtech/flutter-unity/blob/master/example/android/unityExport/build.gradle#L43-L45).
 
 4. Open `<your_flutter_project>/android/build.gradle` and, under `allprojects { repositories {} }`, add the following:
 ```
@@ -94,19 +97,19 @@ flatDir {
     dirs "${project(':unityExport').projectDir}/libs"
 }
 ```
-Refer to the [example project's build.gradle](https://github.com/Glartek/flutter-unity/blob/master/example/android/build.gradle#L16-L18).
+Refer to the [example project's build.gradle](https://github.com/situmtech/flutter-unity/blob/master/example/android/build.gradle#L16-L18).
 
 5. Open `<your_flutter_project>/android/settings.gradle` and add the following:
 ```
 include ':unityExport'
 ```
-Refer to the [example project's settings.gradle](https://github.com/Glartek/flutter-unity/blob/master/example/android/settings.gradle#L17).
+Refer to the [example project's settings.gradle](https://github.com/situmtech/flutter-unity/blob/master/example/android/settings.gradle#L17).
 
 6. Open `<your_flutter_project>/android/app/src/main/AndroidManifest.xml` and add the following:
 ```
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
 ```
-Refer to the [example project's AndroidManifest.xml](https://github.com/Glartek/flutter-unity/blob/master/example/android/app/src/main/AndroidManifest.xml#L8).
+Refer to the [example project's AndroidManifest.xml](https://github.com/situmtech/flutter-unity/blob/master/example/android/app/src/main/AndroidManifest.xml#L8).
 
 Steps 1, 2 and 3 must be repeated for every new build of the Unity project.
 
@@ -210,7 +213,7 @@ To send a message, define the `onCreated` callback in your `UnityView` widget, a
 
 To receive a message, define the `onMessage` callback in your `UnityView` widget.
 #### Unity
-To send and receive messages, include [FlutterUnityPlugin.cs](https://github.com/Glartek/flutter-unity/blob/master/example/unity/FlutterUnityExample/Assets/FlutterUnityPlugin.cs) in your project, and use the `Messages.Send` and `Messages.Receive` methods.
+To send and receive messages, include [FlutterUnityPlugin.cs](https://github.com/situmtech/flutter-unity/blob/master/example/unity/FlutterUnityExample/Assets/FlutterUnityPlugin.cs) in your project, and use the `Messages.Send` and `Messages.Receive` methods.
 
 A `Message` object has the following members:
 
@@ -222,4 +225,4 @@ A non-negative number representing the source view when receiving a message, and
 
 The actual message.
 
-Refer to the [included Unity project's Rotate.cs](https://github.com/Glartek/flutter-unity/blob/master/example/unity/FlutterUnityExample/Assets/Rotate.cs#L21-L32).
+Refer to the [included Unity project's Rotate.cs](https://github.com/situmtech/flutter-unity/blob/master/example/unity/FlutterUnityExample/Assets/Rotate.cs#L21-L32).

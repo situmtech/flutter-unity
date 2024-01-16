@@ -25,7 +25,7 @@ void main() {
       print('Directory not found: `$unityLibraryResPath`');
       return;
     }
-    
+
     File gradlePropertiesFile = File('$unityExportPath/gradle.properties');
     if (gradlePropertiesFile.existsSync()) {
       gradlePropertiesFile.copySync('$unityLibraryPath/gradle.properties');
@@ -57,6 +57,14 @@ void main() {
     file = File('$unityExportPath/build.gradle');
     contents = file.readAsStringSync();
     contents = contents.replaceAll(RegExp(r'unityLibrary'), 'unityExport');
+    contents = contents.replaceFirst('android {', """android {
+      buildTypes {
+        profile {}
+        debug {}
+        release {}
+      }
+    """);
+    contents = contents.replaceAll(RegExp(r'\s*ndkPath.*'), '');
     file.writeAsStringSync(contents);
   } catch (e) {
     print(e);

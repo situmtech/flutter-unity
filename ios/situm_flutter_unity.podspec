@@ -3,7 +3,7 @@
 # Run `pod lib lint flutter_unity.podspec' to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'flutter_unity'
+  s.name             = 'situm_flutter_unity'
   s.version          = '0.0.1'
   s.summary          = 'A Flutter plugin for embedding Unity projects in Flutter projects.'
   s.description      = <<-DESC

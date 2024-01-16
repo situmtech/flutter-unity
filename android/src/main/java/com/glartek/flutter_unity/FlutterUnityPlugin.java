@@ -96,7 +96,7 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
             initialActivityRequestedOrientation = activity.getRequestedOrientation();
             currentActivity = activity;
             player = new FlutterUnityPlayer(activity);
-            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            // activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         } else {
             currentActivity = null;
             player.destroy();
