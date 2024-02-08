@@ -3,6 +3,7 @@
 #import <UnityFramework/UnityFramework.h>
 
 UnityFramework * gUfw;
+BOOL isResumed = NO;
 
 void UfwLoad()
 {
@@ -10,7 +11,7 @@ void UfwLoad()
     if (once) return;
     once = true;
     NSString * bundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:
-        @"/Frameworks/UnityFramework.framework"];
+            @"/Frameworks/UnityFramework.framework"];
     NSBundle * bundle = [NSBundle bundleWithPath: bundlePath];
     if (![bundle isLoaded]) {
         [bundle load];
@@ -35,19 +36,23 @@ void UfwRun()
     [[[gUfw appController] window] setWindowLevel: UIWindowLevelNormal - 1];
 }
 
-void UfwPause()
-{
-    id app = [UIApplication sharedApplication];
-    id appController = [gUfw appController];
-    [appController applicationWillResignActive: app];
+void UfwPause() {
+    if (isResumed) {
+        id app = [UIApplication sharedApplication];
+        id appController = [gUfw appController];
+        [appController applicationWillResignActive: app];
+        isResumed = NO;
+    }
 }
 
-void UfwResume()
-{
-    id app = [UIApplication sharedApplication];
-    id appController = [gUfw appController];
-    [appController applicationWillEnterForeground: app];
-    [appController applicationDidBecomeActive: app];
+void UfwResume() {
+    if (!isResumed) {
+        id app = [UIApplication sharedApplication];
+        id appController = [gUfw appController];
+        [appController applicationWillEnterForeground: app];
+        [appController applicationDidBecomeActive: app];
+        isResumed = YES;
+    }
 }
 
 NSMutableArray * gViews;
