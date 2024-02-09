@@ -1,4 +1,4 @@
-## Unreleased
+## 0.0.2
 
 * Manages a `resumed` state in iOS to prevent freezing. 
 
