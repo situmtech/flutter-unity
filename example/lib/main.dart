@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_unity/flutter_unity.dart';
+import 'package:situm_flutter_unity/flutter_unity.dart';
 
 void main() => runApp(App());
 

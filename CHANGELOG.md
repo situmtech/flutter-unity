@@ -1,3 +1,13 @@
+## 0.0.2
+
+* Manages a `resumed` state in iOS to prevent freezing. 
+
+## 0.0.1
+
+* Use Texture Layer Hybrid Composition in Android.
+
+--
+
 ## 0.3.0
 
 * Remove deprecated RaisedButton an add ElevatedButton to the example
