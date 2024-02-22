@@ -1,3 +1,8 @@
+## 0.0.3
+
+* Restore `Window` flags on Android as soon as the `UnityPlayer` is created to avoid status bar to
+  be hidden.
+
 ## 0.0.2
 
 * Manages a `resumed` state in iOS to prevent freezing. 
