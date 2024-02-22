@@ -1,6 +1,6 @@
 name: situm_flutter_unity
 description: A Flutter plugin for embedding Unity projects in Flutter projects.
-version: 0.0.2
+version: 0.0.3
 # Fork from https://github.com/Glartek/flutter-unity
 homepage: https://github.com/situmtech/flutter-unity
 repository: https://github.com/situmtech/flutter-unity
