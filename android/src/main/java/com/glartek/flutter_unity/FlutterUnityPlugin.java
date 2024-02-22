@@ -95,8 +95,16 @@ public class FlutterUnityPlugin implements FlutterPlugin, ActivityAware {
         if (activity != null) {
             initialActivityRequestedOrientation = activity.getRequestedOrientation();
             currentActivity = activity;
+            WindowManager.LayoutParams layoutParams = activity.getWindow().getAttributes();
+            int currentFlags = layoutParams.flags;
             player = new FlutterUnityPlayer(activity);
+            // Unity seems to be setting the FLAG_FULLSCREEN by calling a private method
+            // hideStatusBar() at UnityPlayer class. There seems not to be a parameter to control
+            // this undesired behavior.
+            // The original flutter_unity plugin calls clearFlags:
             // activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            // Here we try to restore the original flags as soon as possible:
+            activity.getWindow().setFlags(currentFlags, ~0);
         } else {
             currentActivity = null;
             player.destroy();
