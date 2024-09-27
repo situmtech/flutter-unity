@@ -25,7 +25,7 @@ android {
     compileSdkVersion 28
 
     if (project.android.hasProperty("namespace")) {
-        namespace 'com.situm.flutter_unity'
+        namespace 'com.glartek.flutter_unity'
     }
 
     defaultConfig {
